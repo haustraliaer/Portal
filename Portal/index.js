@@ -136,13 +136,13 @@ class Portal extends React.Component {
 
     const childRefs = this.childRefs || []
 
+    const targetIsButton = checkDomTargetPath(event, this.buttonRef)
+    const targetIsPopup = checkDomTargetPath(event, this.contentRef)
     const targetIsInPortalPath = childRefs.reduce((__bool, ref) => {
       return __bool || checkDomTargetPath(event, ref)
     }, false)
 
-    const targetIsPopup = checkDomTargetPath(event, this.contentRef)
-
-    if (targetIsPopup || targetIsInPortalPath) return
+    if (targetIsButton || targetIsPopup || targetIsInPortalPath) return
 
     return onClose()
   }
@@ -336,9 +336,9 @@ class Door extends React.Component {
 
       if (popup) {
         _button = (
-          <div ref={this.setButtonRef}>
+          <span ref={this.setButtonRef}>
             <Button {...portalFns} isOpen={isOpen} />
-          </div>
+          </span>
         )
       }
     }
