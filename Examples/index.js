@@ -12,32 +12,58 @@ const BigOlPaddedDiv = (props) => (
 
 const Popup = (
   <Portal
-    popup    
+    popup
+    closeOnClick    
     position="bottom right"
     align="center left"
     Button={(props) => (
       <button style={{ width: '100%' }} onClick={props.onToggle}>
-        popup
+        popup 1
       </button>
     )}>
-    <div
-      style={{
-        background: '#DDB5B5',
-        padding: '50px',
-        minWidth: '600px',
-      }}>
-      this is a popup portal
-    </div>
+      <div
+        style={{
+          background: '#DDB5B5',
+          padding: '50px',
+          minWidth: '600px',
+        }}>
+        this is a popup portal
+
+        <div
+          style={{ background: '#B3BFED', width: '200px', margin: '50px' }}>
+          <Portal
+            popup
+            closeOnClick    
+            position="bottom right"
+            align="center left"
+            Button={(props) => (
+              <button style={{ width: '100%' }} onClick={props.onToggle}>
+                popup 2
+              </button>
+            )}>
+              <div
+                style={{
+                  background: '#ddc509',
+                  padding: '50px',
+                  minWidth: '600px',
+                }}>
+                this is a popup in a popup!
+              </div>
+          </Portal>
+        </div>
+      </div>
   </Portal>
 )
 
 const PortalInPortal = (
   <Portal
     fullscreen
-    Button={(props) => <button onClick={props.onToggle}>open</button>}
-    Children={(props) => (
+    Button={({onToggle}) => (
+      <button onClick={onToggle}>open</button>
+    )}>
+      {({onToggle}) => (
       <BigOlPaddedDiv>
-        <button onClick={props.onToggle}>close</button>
+        <button onClick={onToggle}>close</button>
         <div>Portal in a portal - I could do this for days...</div>
         <div>Here, have a popup in a portal in a portal:</div>
         <div
@@ -46,7 +72,8 @@ const PortalInPortal = (
         </div>
       </BigOlPaddedDiv>
     )}
-  />
+  </Portal>
+  
 )
 
 const Examples = function() {
@@ -68,15 +95,17 @@ const Examples = function() {
       <Portal
         fullscreen
         background="#F9A0A0"
-        Button={(props) => <button onClick={props.onToggle}>open</button>}
-        Children={(props) => (
-          <BigOlPaddedDiv>
-            <button onClick={props.onToggle}>close</button>
-            <div>Fixed, fullscreen portal</div>
-            {PortalInPortal}
-          </BigOlPaddedDiv>
-        )}
-      />
+        Button={({onToggle}) => (
+          <button onClick={onToggle}>open</button>
+        )}>
+          {({onToggle}) => (
+            <BigOlPaddedDiv>
+              <button onClick={onToggle}>close</button>
+              <div>Fixed, fullscreen portal</div>
+              {PortalInPortal}
+            </BigOlPaddedDiv>
+          )}
+      </Portal>
     </div>
   )
 }
