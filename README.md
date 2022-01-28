@@ -1,6 +1,71 @@
 # Portal
 A pretty neat portal utility, I think.
 
+## Usage
+
+```js
+import React, {useState} from 'react'
+import Portal from 'Portal'
+
+function PopupExample() {
+  return ( 
+    <Portal
+      popup  
+      position="bottom right"
+      align="center left"
+      Button={({onToggle}) => (
+        <button onClick={onToggle}>
+          open portal
+        </button>
+      )}>
+        <div>
+          This will position itself to the bottom right of the button element.
+          And align itself, vertically centered and left (so the content will flow out to the right.)
+        </div>
+    </Portal>
+  )
+}
+
+
+function FullscreenExample() {
+  return ( 
+    <Portal
+      fullscreen
+      background="#F9A0A0"
+      Button={({onToggle}) => (
+        <button onClick={onToggle}>open portal</button>
+      )}>
+        {({onClose}) => (
+          <div>
+            <button onClick={onClose}>close</button>
+            <div>Fixed, fullscreen portal, which overrides the scroll of the current context (in this case, the body)</div>
+          </div>
+        )}
+    </Portal>
+  )
+}
+
+
+function ExternalStateExample() {
+  const [isOpen, toggleOpen] = useState(false)
+  return (
+    <div>
+      <button onClick={toggleOpen}>open portal</button>
+    
+      <Portal
+        fullscreen
+        isOpen={isOpen}
+        background="#F9A0A0">
+          <div>
+            <button onClick={toggleOpen}>close</button>
+            <div>this portal is driven by external state</div>
+          </div>
+      </Portal>  
+    </div>
+  )
+}
+```
+
 ## Props
 
 `element` (DOM node - optional): used for the position in the DOM tree where the portal content (and any wrapping elements) will render. Defaults to the `document.body`. 
